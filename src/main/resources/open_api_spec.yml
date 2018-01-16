@@ -37,6 +37,28 @@ paths:
                   type: string
                 plate:
                   type: string
+    post:
+      summary: Create Car
+      description: Create car
+      parameters:
+        - name: car
+          in: body
+          description: Car
+          schema:
+            required:
+                - color
+                - plate
+            properties:
+              color:
+                type: string
+              plate:
+                type: string
+      responses:
+        204:
+          description: Created
+        400:
+          description: Was not created
+          
   /cars/{id}:
     get:
       summary: Get specific car
