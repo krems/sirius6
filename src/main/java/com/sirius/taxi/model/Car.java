@@ -1,4 +1,4 @@
-package com.sirius.taxi;
+package com.sirius.taxi.model;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -54,6 +54,10 @@ public class Car {
         return this;
     }
     
+    public static Car fromWebModel(final io.swagger.model.Car car) {
+        return new Car().setColor(car.getColor()).setPlate(car.getPlate());
+    }
+    
     @Override
     public String toString() {
         return "Car{" +
@@ -61,5 +65,12 @@ public class Car {
                 ", color='" + color + '\'' +
                 ", plate='" + plate + '\'' +
                 '}';
+    }
+    
+    public io.swagger.model.Car toWebModel() {
+        final io.swagger.model.Car result = new io.swagger.model.Car();
+        result.setColor(getColor());
+        result.setPlate(getPlate());
+        return result;
     }
 }

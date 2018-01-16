@@ -7,7 +7,7 @@ info:
 schemes:
   - http
   - https
-host: localhost
+host: localhost:8080
 basePath: /taxi
 
 paths:
@@ -37,6 +37,8 @@ paths:
                 - color
                 - plate
             properties:
+              id:
+                type: integer
               color:
                 type: string
               plate:

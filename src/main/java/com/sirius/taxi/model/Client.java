@@ -1,4 +1,4 @@
-package com.sirius.taxi;
+package com.sirius.taxi.model;
 
 import javax.persistence.*;
 
