@@ -26,13 +26,38 @@ public class Main {
         factory.close();
     }
     
-    private static void createNewDriver(final int carId, final int licenseId) {
+    private static List<Car> findAllCars() {
+        final EntityManager manager = factory.createEntityManager();
+        final List<Car> result = manager.createQuery("from Car", Car.class).getResultList();
+        manager.close();
+        return result;
+    }
+    
+    private static Car findCar(final int id) {
+        final EntityManager manager = factory.createEntityManager();
+        final Car result = manager.find(Car.class, id);
+        manager.close();
+        return result;
+    }
+    
+    private static void saveCar() {
+        final EntityManager manager = factory.createEntityManager();
+        final Car car = new Car().setColor("grey").setPlate("A000AA00");
+        manager.getTransaction().begin();
+        manager.persist(car);
+        manager.getTransaction().commit();
+        manager.close();
+    }
+    
+    private static void updateCar(final int id, final Car newParams) {
         final EntityManager manager = factory.createEntityManager();
         manager.getTransaction().begin();
-        final Set<Car> cars = Collections.singleton(findCar(carId));
-        final License license = findLicense(licenseId);
-        final Driver driver = new Driver().setCars(cars).setLicense(license);
-        manager.persist(driver);
+        final Car result = manager.find(Car.class, id);
+        final Car updatedCar = result
+                .setColor(newParams.getColor())
+                .setPlate(newParams.getPlate())
+                .setDrivers(newParams.getDrivers());
+        manager.persist(updatedCar);
         manager.getTransaction().commit();
         manager.close();
     }
@@ -55,11 +80,15 @@ public class Main {
         manager.close();
     }
     
-    private static Car findCar(final int id) {
+    private static void createNewDriver(final int carId, final int licenseId) {
         final EntityManager manager = factory.createEntityManager();
-        final Car result = manager.find(Car.class, id);
+        manager.getTransaction().begin();
+        final Set<Car> cars = Collections.singleton(findCar(carId));
+        final License license = findLicense(licenseId);
+        final Driver driver = new Driver().setCars(cars).setLicense(license);
+        manager.persist(driver);
+        manager.getTransaction().commit();
         manager.close();
-        return result;
     }
     
     private static License findLicense(final int id) {
@@ -67,14 +96,5 @@ public class Main {
         final License result = manager.find(License.class, id);
         manager.close();
         return result;
-    }
-    
-    private static void saveCar() {
-        final EntityManager manager = factory.createEntityManager();
-        final Car car = new Car().setColor("grey").setPlate("A000AA00");
-        manager.getTransaction().begin();
-        manager.persist(car);
-        manager.getTransaction().commit();
-        manager.close();
     }
 }
