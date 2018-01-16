@@ -24,19 +24,7 @@ paths:
         200:
           description: A list of cars
           schema:
-            type: array
-            items:
-              required:
-                - id
-                - color
-                - plate
-              properties:
-                id:
-                  type: integer
-                color:
-                  type: string
-                plate:
-                  type: string
+            $ref: '#/definitions/Cars'
     post:
       summary: Create Car
       description: Create car
@@ -58,7 +46,7 @@ paths:
           description: Created
         400:
           description: Was not created
-          
+
   /cars/{id}:
     get:
       summary: Get specific car
@@ -73,16 +61,24 @@ paths:
         200:
           description: A car
           schema:
-            required:
-              - id
-              - color
-              - plate
-            properties:
-              id:
-                type: integer
-              color:
-                type: string
-              plate:
-                type: string
+            $ref: '#/definitions/Car'
         404:
           description: A cat doesn't exist
+
+definitions:
+  Car:
+    required:
+      - id
+      - color
+      - plate
+    properties:
+      id:
+        type: integer
+      color:
+        type: string
+      plate:
+        type: string
+  Cars:
+    type: array
+    items:
+      $ref: '#/definitions/Car'
