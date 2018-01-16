@@ -37,3 +37,30 @@ paths:
                   type: string
                 plate:
                   type: string
+  /cars/{id}:
+    get:
+      summary: Get specific car
+      description: Get car with specific id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Car identifier
+          type: string
+      responses:
+        200:
+          description: A car
+          schema:
+            required:
+              - id
+              - color
+              - plate
+            properties:
+              id:
+                type: integer
+              color:
+                type: string
+              plate:
+                type: string
+        404:
+          description: A cat doesn't exist
