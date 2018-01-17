@@ -1,28 +1,34 @@
-swagger: "2.0"
-info:
-  version: "1.0"
-  title: Taxi API
-  description: Simple taxi management system API
+swagger: '2.0'
 
+info:
+  version: "1.0.0"
+  title: Taxi
+  description: Taxi management system API
 schemes:
   - http
   - https
-host: localhost
+host: localhost:8080
 basePath: /taxi
 
 paths:
   /cars:
     get:
-      summary: Get all available cars
-      description: Get all available cars
+      summary: Get all cars
+      description: Get all cars
       parameters:
-        - name: pageNumber
-          description: Page number to list cars
-          in: query
+        - name: pageSize
+          description: Number of cars per page
+          in: path
           type: integer
+          required: true
+        - name: pageNumber
+          description: Page number
+          in: path
+          type: integer
+          required: true
       responses:
         200:
-          description: A list of cars
+          description: All available cars
           schema:
             type: array
             items:
@@ -38,37 +44,38 @@ paths:
                 plate:
                   type: string
     post:
-      summary: Create Car
-      description: Create car
+      summary: Create a car
+      description: Create a car
       parameters:
         - name: car
           in: body
-          description: Car
+          description: A car
           schema:
             required:
-                - color
-                - plate
+              - color
+              - plate
             properties:
+              id:
+                type: integer
               color:
                 type: string
               plate:
                 type: string
       responses:
-        204:
+        201:
           description: Created
         400:
-          description: Was not created
-          
+          description: Couldn't create car
   /cars/{id}:
     get:
-      summary: Get specific car
-      description: Get car with specific id
+      summary: Get a car
+      description: Get car by id
       parameters:
         - name: id
+          description: Car identificator
           in: path
           required: true
-          description: Car identifier
-          type: string
+          type: integer
       responses:
         200:
           description: A car
@@ -85,4 +92,4 @@ paths:
               plate:
                 type: string
         404:
-          description: A cat doesn't exist
+          description: Not found
