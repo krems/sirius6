@@ -30,13 +30,13 @@ public class CarsDao {
         manager.close();
     }
     
-    public static void updateCar(final int id, final io.swagger.model.Car newParams) {
+    public static void updateCar(final int id, final io.swagger.model.Car car) {
         final EntityManager manager = PersistenceUnit.INSTANCE.get();
         manager.getTransaction().begin();
         final Car result = manager.find(Car.class, id);
         final Car updatedCar = result
-                .setColor(newParams.getColor())
-                .setPlate(newParams.getPlate());
+                .setColor(car.getColor())
+                .setPlate(car.getPlate());
         manager.persist(updatedCar);
         manager.getTransaction().commit();
         manager.close();

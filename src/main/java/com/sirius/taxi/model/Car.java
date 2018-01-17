@@ -58,6 +58,14 @@ public class Car {
         return new Car().setColor(car.getColor()).setPlate(car.getPlate());
     }
     
+    public io.swagger.model.Car toWebModel() {
+        final io.swagger.model.Car result = new io.swagger.model.Car();
+        result.setId(getId());
+        result.setColor(getColor());
+        result.setPlate(getPlate());
+        return result;
+    }
+    
     @Override
     public String toString() {
         return "Car{" +
@@ -65,12 +73,5 @@ public class Car {
                 ", color='" + color + '\'' +
                 ", plate='" + plate + '\'' +
                 '}';
-    }
-    
-    public io.swagger.model.Car toWebModel() {
-        final io.swagger.model.Car result = new io.swagger.model.Car();
-        result.setColor(getColor());
-        result.setPlate(getPlate());
-        return result;
     }
 }

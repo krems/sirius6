@@ -11,18 +11,23 @@ import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2018-01-17T00:10:11.830+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2018-01-17T10:05:03.258+03:00")
 public class CarsApiServiceImpl extends CarsApiService {
     @Override
-    public Response carsGet(Integer pageNumber, SecurityContext securityContext) throws NotFoundException {
+    public Response carsGet(Integer pageSize, Integer pageNumber, SecurityContext securityContext) throws NotFoundException {
         final List<com.sirius.taxi.model.Car> cars = CarsDao.findAllCars();
         final List<Car> result = cars.stream().map(car -> car.toWebModel()).collect(Collectors.toList());
         return Response.ok().entity(result).build();
     }
+    @Override
+    public Response carsIdDelete(Integer id, SecurityContext securityContext) throws NotFoundException {
+        CarsDao.deleteCar(id);
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "Delete")).build();
+    }
     
     @Override
-    public Response carsIdGet(String id, SecurityContext securityContext) throws NotFoundException {
-        final com.sirius.taxi.model.Car car = CarsDao.findCar(Integer.parseInt(id));
+    public Response carsIdGet(Integer id, SecurityContext securityContext) throws NotFoundException {
+        final com.sirius.taxi.model.Car car = CarsDao.findCar(id);
         return Response.ok().entity(car.toWebModel()).build();
     }
     
