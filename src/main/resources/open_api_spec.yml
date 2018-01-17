@@ -16,6 +16,10 @@ paths:
       summary: Get all available cars
       description: Get all available cars
       parameters:
+        - name: pageSize
+          description: Page size
+          in: query
+          type: integer
         - name: pageNumber
           description: Page number to list cars
           in: query
