@@ -15,7 +15,7 @@ import javax.ws.rs.core.SecurityContext;
 
 
 @io.swagger.annotations.Api(description = "the cars API")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2018-01-17T00:10:11.830+03:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2018-01-17T10:00:02.220+03:00")
 public class CarsApi {
     private final CarsApiService delegate;
     
@@ -39,43 +39,57 @@ public class CarsApi {
         
         this.delegate = delegate;
     }
-    
+
     @GET
-    
-    
-    @io.swagger.annotations.ApiOperation(value = "Get all available cars", notes = "Get all available cars", response = Cars.class, tags = {})
+
+
+    @io.swagger.annotations.ApiOperation(value = "Get all cars", notes = "Get all cars", response = Cars.class, tags = {})
     @io.swagger.annotations.ApiResponses(value = {
-            @io.swagger.annotations.ApiResponse(code = 200, message = "A list of cars", response = Cars.class)})
-    public Response carsGet(@ApiParam(value = "Page number to list cars") @QueryParam("pageNumber") Integer pageNumber
+            @io.swagger.annotations.ApiResponse(code = 200, message = "All available cars", response = Cars.class)})
+    public Response carsGet(@ApiParam(value = "Number of cars per page", required = true) @PathParam("pageSize") Integer pageSize
+            , @ApiParam(value = "Page number", required = true) @PathParam("pageNumber") Integer pageNumber
             , @Context SecurityContext securityContext)
             throws NotFoundException {
-        return delegate.carsGet(pageNumber, securityContext);
+        return delegate.carsGet(pageSize, pageNumber, securityContext);
     }
     
-    @GET
+    @DELETE
     @Path("/{id}")
     
     
-    @io.swagger.annotations.ApiOperation(value = "Get specific car", notes = "Get car with specific id", response = Car.class, tags = {})
+    @io.swagger.annotations.ApiOperation(value = "Deletes a car", notes = "Deletes car with id", response = Void.class, tags = {})
+    @io.swagger.annotations.ApiResponses(value = {
+            @io.swagger.annotations.ApiResponse(code = 200, message = "OK", response = Void.class),
+            
+            @io.swagger.annotations.ApiResponse(code = 404, message = "Not found", response = Void.class)})
+    public Response carsIdDelete(@ApiParam(value = "Car identificator", required = true) @PathParam("id") Integer id
+            , @Context SecurityContext securityContext)
+            throws NotFoundException {
+        return delegate.carsIdDelete(id, securityContext);
+    }
+    @GET
+    @Path("/{id}")
+
+
+    @io.swagger.annotations.ApiOperation(value = "Get a car", notes = "Get car by id", response = Car.class, tags = {})
     @io.swagger.annotations.ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 200, message = "A car", response = Car.class),
-            
-            @io.swagger.annotations.ApiResponse(code = 404, message = "A cat doesn't exist", response = Void.class)})
-    public Response carsIdGet(@ApiParam(value = "Car identifier", required = true) @PathParam("id") String id
+        
+            @io.swagger.annotations.ApiResponse(code = 404, message = "Not found", response = Void.class)})
+    public Response carsIdGet(@ApiParam(value = "Car identificator", required = true) @PathParam("id") Integer id
             , @Context SecurityContext securityContext)
             throws NotFoundException {
         return delegate.carsIdGet(id, securityContext);
     }
-    
     @POST
-    
-    
-    @io.swagger.annotations.ApiOperation(value = "Create Car", notes = "Create car", response = Void.class, tags = {})
+
+
+    @io.swagger.annotations.ApiOperation(value = "Create a car", notes = "Create a car", response = Void.class, tags = {})
     @io.swagger.annotations.ApiResponses(value = {
-            @io.swagger.annotations.ApiResponse(code = 204, message = "Created", response = Void.class),
-            
-            @io.swagger.annotations.ApiResponse(code = 400, message = "Was not created", response = Void.class)})
-    public Response carsPost(@ApiParam(value = "Car") Car car
+            @io.swagger.annotations.ApiResponse(code = 201, message = "Created", response = Void.class),
+        
+            @io.swagger.annotations.ApiResponse(code = 400, message = "Couldn't create car", response = Void.class)})
+    public Response carsPost(@ApiParam(value = "A car") Car car
             , @Context SecurityContext securityContext)
             throws NotFoundException {
         return delegate.carsPost(car, securityContext);
